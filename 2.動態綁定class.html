@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="lib/vue.js"></script>
+    <style>
+        .yellow {
+            background-color: yellow;
+        }
+
+        .red {
+            background-color: red;
+        }
+
+        .blue {
+            background-color: blue;
+        }
+
+        .font {
+            font-size: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="blue"> 123</div>
+    <div id="box">
+        <!-- :class 綁定 -->
+        <button @click="handleClass()">動態改變class</button>
+        <!-- v-on: 縮寫 =@ -->
+        <!-- 用click改變active狀態然後影響class樣式 -->
+        <div :class="isActive?'red':'yellow'">動態綁定三源運算</div>
+        <button @click="becomeBig()">變大變小</button>
+        <div :class="classObject ">動態綁定三源運算</div>
+        <button @click="becomeColor()">變換顏色</button>
+        <button @click="becomeSize">改變大小</button>
+        <div :class="[classArray[ClassHandle],changeSize] ">動態綁定三源運算{{classArray.length}}</div>
+        <!-- 索引0改變顏色 索引1 改變大小 -->
+        <div :style="'background:'+(isActive?'red':'green')">動態綁定style</div>
+        <!-- 優先級 所以要() -->
+        <div :style="colorObj">綁定objstyle寫法</div>
+        <div :style="colorArr">綁定ARR寫法</div>
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el: "#box",
+            data: {
+                isActive: true,
+                classObject: { yellow: true, font: true },
+                classArray: ['yellow', 'blue', 'red'],
+                ClassHandle: 0,
+                changeSize: { font: true },
+                colorObj: { backgroundColor: "pink" },
+                colorArr: [{ backgroundColor: 'yellow' }, { fontSize: "60px" }]
+                // background-color  有-要變成駝峰寫法
+
+
+            },
+            //methods 的this 指向vue這個實例
+            methods: {
+                //等同 handleClass: function () {
+                //     this.isActive = !this.isActive
+                // }
+                handleClass() {
+                    this.isActive = !this.isActive
+                },
+                becomeBig() {
+                    this.classObject.font = !this.classObject.font
+                },
+                becomeColor() {
+                    this.ClassHandle += 1
+                    if (this.ClassHandle >= this.classArray.length) {
+                        this.ClassHandle = 0
+                    }
+                },
+                becomeSize() {
+                    this.changeSize.font = !this.changeSize.font
+                }
+
+            }
+        });
+    </script>
+</body>
+
+</html>
