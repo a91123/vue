@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="lib/vue.js"></script>
+</head>
+
+<body>
+    <div id="box">
+        <button @click="studentHandle()">Click添加student</button>
+        <button @click="dogHandle()">Click添加dog</button>
+        <button @click="spliceHandle()">ClickSplice</button>
+        <ul>
+            <li v-for="(data,index) in student" key="data">{{index}}:{{data}}</li>
+            <li v-for="(data,key) in dog">{{key}}:{{data}}</li>
+        </ul>
+
+        <ul>
+            <li v-for="(data,index) of student">{{index}}:{{data}}</li>
+            <li v-for="(data,key) of dog">{{key}}:{{data}} </li>
+        </ul>
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el: "#box",
+            data: {
+                student: ['tom', 'wendy', 'sandy'],
+                dog: { name: 'lucky', age: 20 }
+            },
+            methods: {
+                studentHandle() {
+                    Vue.set(this.student, this.student.length, 'Amy');
+                },
+                dogHandle() {
+                    Vue.set(this.dog, 'kind', '法鬥');
+                },
+                spliceHandle() {
+                    this.student.splice(0, 1, 'wei')
+                }
+                //vue 無法在建立實體後增加屬性 set 方法加入的屬性則會被賦予 getter 及 setter 
+                //因此使用 set 加入的屬性都可以被響應在頁面上。
+                //也可用splice來更改 
+            }
+        });
+    </script>
+</body>
+
+</html>
