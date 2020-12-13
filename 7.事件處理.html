@@ -12,9 +12,10 @@
     <div id="box">
         <button @click="handleClick">Click</button>
         <!-- 要傳參數後面才加()看是否要傳參數決定 -->
-        <button @click="handleClick()">Click</button>
+        <button @click="handleClick()">123 Click</button>
         <!-- 如果邏輯很簡單 可以直接寫在行內 -->
         <button @click="isShow=!isShow">Click</button>
+        <button @click="handleEv($event)">EvClick</button>
         <div v-show="isShow">顯示隱藏</div>
     </div>
     <script>
@@ -24,8 +25,13 @@
                 isShow: true
             },
             methods: {
+
                 handleClick() {
                     this.isShow = !this.isShow
+
+                },
+                handleEv(ev) {
+                    console.log(ev.target)
                 }
             },
         });
