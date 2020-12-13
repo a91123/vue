@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- 1 .stop阻止冒泡 2 .self判斷觸發源頭是否是自己如果不是不理會  -->
+<!-- 3 .once 只會觸發一次事件 4.prevent阻止默認事件 -->
+<!-- 5 .enter 判斷enter按鈕   .keyCode =判斷xx按鈕 只要知道keycode就可以判斷-->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="lib/vue.js"></script>
+</head>
+
+<body>
+    <div id="box">
+        <ul @click.self="handleUl">
+            <!-- .self判斷事件觸發源是否是自己 如果不是就不理會 -->
+            <li @click.stop="handleLi">Click1</li>
+            <!-- .stop 阻止冒泡修飾等同event.stopPropagation() -->
+            <li @click="handleLi">Click2</li>
+            <li @click.once="handleLi">Click3</li>
+            <!-- 只會處發一次 -->
+            <a href="https://tw.yahoo.com/" @click.prevent.stop="handleYahoo">雅虎</a>
+            <!-- .prevent 等同 event.preventDefault()-->
+        </ul>
+        <input type="text" @keyup.enter="handleKeyup()">
+        <!-- .enter等同if (event.keyCode === 13) {} -->
+
+    </div>
+    <script>
+        var vm = new Vue({
+            el: "#box",
+            data: {
+
+            },
+            methods: {
+                handleLi(num) {
+                    //事件冒泡點li  ul也連帶生效
+                    console.log("li被點拉")
+                    //阻止事件冒泡原生方法
+                    // event.stopPropagation()
+                },
+                handleUl() {
+                    console.log('Ul被點拉')
+                },
+                handleYahoo() {
+                    // event.preventDefault() 原生阻止默認行為方法
+
+                    console.log('prevent')
+                },
+                handleKeyup() {
+                    //enter keyCode 13 原生判斷enter事件
+                    // if (event.keyCode === 13) {
+                    //     console.log('觸發enter囉')
+                    // }
+                    console.log('觸發enter囉')
+                }
+
+            },
+        });
+    </script>
+</body>
+
+</html>
