@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="lib/vue.js"></script>
+</head>
+
+<body>
+    <div id="box">
+        <ul>
+            <input type="checkbox" @change="handleChange" v-model="isAllChecked">小孩才選我都要
+            {{isAllChecked}}
+            <li v-for="data in datalist">
+                <!-- value記得前面要加 ":" 動態綁定 他才會吃js的變數 否則當成普通html -->
+                <input type="checkbox" v-model="product" :value="data" @change="handleLiChange">
+                {{data}}
+                <button @click="handleDel(data)">-</button>
+                {{data.number}}
+                <button @click="data.number++">+</button>
+            </li>
+            {{product}}
+            <p>總共:{{getSum()}}</p>
+            <!-- {{裡面也可以擺函數}} -->
+
+        </ul>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: "#box",
+            data: {
+                datalist: [
+                    { name: '乖乖', price: 50, number: 1, id: '1' },
+                    { name: '可樂果', price: 80, number: 2, id: '2' },
+                    { name: '新貴派', price: 180, number: 3, id: '3' }
+                ],
+                isAllChecked: false,
+                product: []
+            },
+            methods: {
+                getSum() {
+                    // 函數計算中的'狀態改變後'，函數會自動執行一次
+                    var sum = 0;
+                    for (var i in this.product) {
+                        sum += this.product[i].number * this.product[i].price
+                    }
+                    return sum + "元"
+
+                },
+                handleChange() {
+                    if (this.isAllChecked) {
+                        this.product = this.datalist
+                    } else {
+                        this.product = []
+                    }
+                },
+                handleLiChange() {
+                    if (this.product.length === this.datalist.length) {
+                        this.isAllChecked = true
+                    } else {
+                        this.isAllChecked = false
+                    }
+                },
+                handleDel(data) {
+                    data.number -= 1
+                    if (data.number < 1) {
+                        data.number = 1
+                    }
+
+                    console.log(data.number)
+
+                }
+
+
+            },
+        });
+    </script>
+</body>
+
+</html>
