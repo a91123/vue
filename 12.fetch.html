@@ -30,9 +30,14 @@
             },
             methods: {
                 async getData() {
-                    const res = await fetch('./sale.json')
-                    const data = await res.json()
-                    this.datalist = data
+                    try {
+                        const res = await fetch('./sale.json')
+                        const data = await res.json()
+                        this.datalist = data
+                    }
+                    catch {
+                        error => console.log(error)
+                    }
                 }
             },
         });
