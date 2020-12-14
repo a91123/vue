@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="lib/vue.js"></script>
+</head>
+
+<body>
+    <div id="box">
+        <!-- input 輸入就會觸發 change當失去焦點時才觸發 -->
+        <!-- v-model 雙向綁定  -->
+        <input type="text" v-model="mytext" />
+        <ul>
+            <li v-for="data in handleSearch">{{data}}</li>
+        </ul>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: "#box",
+            data: {
+                mytext: '',
+                datalist: ['乖乖', '可樂果', '夾心餅乾', '新貴派', '麻油雞', '咖啡', '可樂', '咖哩飯', '夾心酥'],
+            },
+            computed: {
+                handleSearch() {
+                    // filter不會破壞原數據
+                    return this.datalist.filter(item => item.indexOf(this.mytext) != -1)
+                }
+            }
+            // methods: {
+            //     handleInput() {
+            //         //利用v-model，過濾出包含 mytext的食物
+            //         this.newlist = this.datalist.filter(item => item.indexOf(this.mytext) != -1)
+            //         // console.log(newlist)
+            //         // this.datalist = newlist
+            //     }
+            // },
+
+        });
+
+    </script>
+</body>
+
+</html>
