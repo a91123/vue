@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="lib/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <div id="box">
+        <button @click="getData()">獲取sale資料</button>
+        <ul>
+            <li v-for="data in datalist">
+                <h1>{{data.name}}</h1>
+                <img :src="data.img">
+            </li>
+
+        </ul>
+    </div>
+    <script>
+
+        // fetch("./sale.json").then(res => res.json()).then(res => console.log(res))
+        var vm = new Vue({
+            el: "#box",
+            data: {
+                datalist: [111, 222],
+
+            },
+            methods: {
+                async getData() {
+                    // const res = await fetch('./sale.json')
+                    // const data = await res.json()
+                    // this.datalist = data
+                    try {
+                        const res = await axios.get('./sale.json')
+                        //axios會自動包裝data所以要先取出來
+                        console.log(res.data)
+                        this.datalist = res.data
+                    }
+                    catch {
+                        error => {
+                            console.log(err)
+                        }
+                    }
+
+
+                }
+            },
+        });
+    </script>
+</body>
+
+</html>
