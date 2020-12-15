@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="lib/vue.js"></script>
+</head>
+
+<body>
+    <div id="box">
+        父組件
+        <child @myevent='handleEvent'></child>
+    </div>
+    <script>
+        // $emit 用 emit連接 
+        //1. 父組件 創一個函數 然後傳給 子組件 
+        //2.子組件用emit連接this.emit('父組件傳的參數名稱',要傳給父組件的資訊)
+        Vue.component("child", {
+            template:
+                `<div>child組件
+                 <button @click="sendMessage">click</button>
+                 </div>
+                `,
+            methods: {
+                sendMessage() {
+                    this.$emit("myevent", this.childname)//分發事件
+
+                }
+
+            }
+            ,
+            data() {
+                return {
+                    childname: "子組件狀態"
+                }
+            }
+        })
+        var vm = new Vue({
+            el: "#box",
+            data: {},
+            methods: {
+                handleEvent(event) {
+                    console.log('父組件收到訊息', event)
+                }
+
+            },
+        });
+    </script>
+</body>
+
+</html>
