@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="/lib/vue.js"></script>
+</head>
+
+
+<body>
+    <!-- 1. input checkbox 觸發 用change -->
+    <!-- 2. 共用數值 要變動 使用 計算屬性較優雅 -->
+    <!-- 3. : 用這個符號綁定 可使用javascript語法 否則當普通html對待 -->
+    <!-- 4. {{}} 裡面也可以擺函數 不一定只能擺數值 -->
+    <!-- 5.v-model 雙向綁定可以記錄狀態 控制表單 常常使用的手段   -->
+    <!-- 6.v-model.lazy 使用表單修飾 失去焦點才同步 節省資源   -->
+    <div id="box">
+        <input type="text" v-model.lazy="search">
+
+
+
+        <ul>
+            <input type="checkbox" @change="handleChange" v-model="isChecked">全都要
+            {{isChecked}}
+            <li v-for="data in getShoplist">
+
+                <input type="checkbox" :value="data" v-model="checkgroup" @change="handleLi">
+                {{data.name}}
+                價格 {{data.price}}
+                數量 {{data.total}}
+                <button @click="data.total++">+</button>{{data.total}}<button>-</button>{{data.price*data.total}}
+            </li>
+            {{checkgroup}}
+            <p>總價:</p>{{getsum}}
+        </ul>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: "#box",
+            data: {
+                datalist: [
+                    { name: '乖乖', price: 50, id: 1, total: 0 },
+                    { name: '可樂果', price: 500, id: 2, total: 0 },
+                    { name: '千層', price: 30, id: 3, total: 0 },
+                    { name: '拉麵', price: 309, id: 4, total: 0 }
+                ],
+                checkgroup: []
+                ,
+                search: "",
+                isChecked: false
+            },
+            methods: {
+                handleChange() {
+                    if (this.isChecked) {
+                        this.checkgroup = this.datalist
+                    }
+                    else {
+                        this.checkgroup = []
+                    }
+
+                },
+                handleLi() {
+                    if (this.checkgroup.length === this.datalist.length) {
+                        this.isChecked = true
+                    } else {
+                        this.isChecked = false
+                    }
+                }
+            },
+            computed: {
+                getShoplist() {
+                    return this.datalist.filter(item => item.name.indexOf(this.search) != -1)
+                },
+                getsum() {
+                    var sum = 0
+                    for (i in this.checkgroup) {
+                        sum += this.checkgroup[i].price * this.checkgroup[i].total
+                    }
+                    return sum
+
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
