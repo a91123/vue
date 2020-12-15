@@ -10,7 +10,7 @@
 
 <body>
     <div id="box">
-        <navbar myname="home" :myshow=" myshow"></navbar>
+        <navbar myname="home" :myshow="false"></navbar>
         <navbar myname="list" :myshow=" myshow"></navbar>
         <navbar :myname="parentname" :myshow=" myshow"></navbar>
         <button @click="myshow=!myshow">click</button>
@@ -26,7 +26,14 @@
                 </div>
                 `,
 
-            props: ["myname", 'myshow'],
+            // props: ["myname", 'myshow'],
+            props: {
+                myname: String,
+                myshow: Boolean,
+                //屬性驗證
+                //null 代表不限類型 
+                // String Number Boolean Array Obj Fun..
+            }
 
 
         })
