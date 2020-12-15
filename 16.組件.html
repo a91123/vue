@@ -18,7 +18,7 @@
         Vue.component("navbar", {
             template: `
             <div style="background:red">
-            我是navbar
+            我是{{navbarname}}
             <button @click="handleClick">主頁</button>  
             <navchild></navchild> 
             <navbarschild></navbarschild>
@@ -31,16 +31,18 @@
                 navbarschild: {
                     template: `<div>123</div>`
                 }//局部組件
+            }, data() {
+                return { navbarname: "navbarname" }
             }
 
         })
         Vue.component("navchild", {
-            template: `<div>全局定義<div>`
+            template: `<div>全局定義</div>`
         })
         Vue.component('sidebar', {
             template: `<div>sidebar
                 <navchild></navchild>
-                <navbarschild></navbarschild>
+                
                 </div>`//</navbarschild>是局部組件所以不能使用
         })
         var vm = new Vue({
