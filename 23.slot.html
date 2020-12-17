@@ -11,7 +11,9 @@
 <body>
     <div id="box">
         <child>
-            <div>aaa</div>
+            <!-- 具名插槽 要記得 slot要有name -->
+            <div slot="a">aaa</div>
+            <div slot="b">bbb</div>
             <!-- 用slot 把div 插入 子組件中 (內容分發) -->
         </child>
         <swiper>
@@ -31,8 +33,9 @@
 
         Vue.component('child', {
             template: `<div>
+                <slot name="a"></slot>
                 child
-                <slot></slot>
+                <slot name="b"></slot>
                 </div>`
 
         });
