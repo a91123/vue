@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="lib/vue.js"></script>
+</head>
+
+<body>
+    <div id="box">
+        <child>
+            <div>aaa</div>
+            <!-- 用slot 把div 插入 子組件中 (內容分發) -->
+        </child>
+        <swiper>
+            <li v-for="data in datalist">{{data}}
+            </li>
+        </swiper>
+    </div>
+    <script>
+        Vue.component('swiper', {
+            template: `<div>
+                <ul>
+                 <slot>
+                </ul>
+                </div>`
+
+        });
+
+        Vue.component('child', {
+            template: `<div>
+                child
+                <slot></slot>
+                </div>`
+
+        });
+        var vm = new Vue({
+            el: "#box",
+            data: {
+                datalist: [111, 222, 333]
+            },
+            methods: {},
+        });
+    </script>
+</body>
+
+</html>
