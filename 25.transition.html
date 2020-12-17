@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" /> -->
+    <style>
+        .tom-enter-active,
+        .tom-leave-active {
+            transition: all 1.5s;
+        }
+
+        .tom-enter,
+        .tom-leave-to {
+
+            opacity: 0;
+            transform: translateX(100px)
+        }
+
+        .tombounce-enter-active {
+            animation: bounce-in .5s;
+        }
+
+        .tombounce-leave-active {
+            animation: bounce-in .5s reverse;
+        }
+
+        @keyframes bounce-in {
+            0% {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateX(0px);
+            }
+        }
+    </style>
+    <script src="lib/vue.js"></script>
+</head>
+
+<body>
+    <div id="box">
+        <button @click="isShow=!isShow">Click</button>
+        <transition name="tom" mode="in-out">
+            <!-- mode 1. in-out 2. out-in -->
+
+            <p v-if="isShow" key='1'>111</p>
+            <!-- diff算法 key要不一樣 他才會檢測到 節點發生改變
+            否則vue為了效率 沒偵測到結點不同 將不會發生改變 -->
+            <p v-else>222</p>
+        </transition>
+        <!-- 
+        <transition name="tombounce">
+
+            <div style="background-color: pink;" v-show="isShow">顯示隱藏
+            </div>
+        </transition> -->
+
+    </div>
+    <script>
+        var vm = new Vue({
+            el: "#box",
+            data: {
+                isShow: false
+            },
+            methods: {},
+        });
+    </script>
+</body>
+
+</html>
