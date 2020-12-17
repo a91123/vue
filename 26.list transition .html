@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="lib/vue.js"></script>
+</head>
+<style>
+    .tom-enter-active,
+    .tom-leave-active {
+        transition: all 1.5s;
+    }
+
+    .tom-enter,
+    .tom-leave-to {
+
+        opacity: 0;
+        transform: translateX(100px)
+    }
+
+    .tombounce-enter-active {
+        animation: bounce-in .5s;
+    }
+
+    .tombounce-leave-active {
+        animation: bounce-in .5s reverse;
+    }
+
+    @keyframes bounce-in {
+        0% {
+            opacity: 0;
+            transform: translateX(100px);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateX(0px);
+        }
+    }
+</style>
+
+<body>
+    <div id="box">
+        <input type="text" v-model="mytext">
+        <button @click="handleAdd">add</button>
+        <!--transition-group　需要唯一key值 否則失效 一樣是diff對比後的結果 理想的key是data.id 唯一值  -->
+        <transition-group tag="ul" name="tombounce">
+            <li v-for="(data,index) in datalist" :key="data">
+
+                <button @click="handleRemove(index)">remove </button>
+                {{data}}
+            </li>
+        </transition-group>
+
+
+
+
+    </div>
+    <script>
+        var vm = new Vue({
+            el: "#box",
+            data: {
+                datalist: [],
+                mytext: "",
+                checkgroup: []
+            },
+            methods: {
+                handleAdd() {
+                    Vue.set(this.datalist, this.datalist.length, this.mytext);
+                },
+                handleRemove(data) {
+                    this.datalist.splice(data, 1)
+                }
+
+            },
+        });
+    </script>
+</body>
+
+</html>
