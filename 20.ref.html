@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="lib/vue.js"></script>
+</head>
+
+<body>
+    <div id="box">
+        <input type="text" ref="mytext">
+        <button @Click="handleAdd"> Click</button>
+        <child ref="mychild"></child>
+    </div>
+    <script>
+        Vue.component('child', {
+            template: `<div>Child</div>`,
+            data() {
+                return {
+                    childName: "子組件的狀態"
+                }
+
+            },
+            methods: {
+                add(data) {
+                    console.log('你別偷點', data)
+                }
+            }
+        });
+        var vm = new Vue({
+            el: "#box",
+            data: {},
+            methods: {
+                handleAdd() {
+                    console.log(this.$refs.mychild.childName)
+                    console.log(this.$refs.mytext.value)//consloe this可以 觀看Vue實例
+                    this.$refs.mychild.add('孩子聽話')
+                }
+            },
+        });
+    </script>
+</body>
+
+</html>
