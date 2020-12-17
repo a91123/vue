@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="lib/vue.js"></script>
+</head>
+<style>
+    footer {
+        display: flex;
+        list-style: none;
+        justify-content: space-around;
+        background-color: #aaa;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 50px;
+        line-height: 50px;
+    }
+</style>
+
+<body>
+    <div id="box">
+        <keep-alive>
+            <!-- 使用keep-alive防止重新渲染 如果要保存狀態可以使用 -->
+            <!-- component is 動態組件 is的值是組件名稱 這邊用who變數控制-->
+            <component :is="who"></component>
+        </keep-alive>
+
+
+        <footer>
+            <li><a @click="who='home'">首頁</a></li>
+            <li><a @click="who='list'">列表頁</a></li>
+            <li><a @click="who='cart'">購物車</a></li>
+        </footer>
+
+    </div>
+    <script>
+        var vm = new Vue({
+            el: "#box",
+            data: {
+                who: "home"
+            },
+            methods: {},
+            components: {
+                "home": {
+                    template: `<div>home <input type="text"></input></div>`
+                },
+                "list": {
+                    template: `<div>list</div>`
+
+                },
+                "cart": {
+                    template: `<div>cart</div>`
+                }
+
+
+            }
+        });
+    </script>
+</body>
+
+</html>
