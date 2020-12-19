@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="lib/vue.js"></script>
+</head>
+
+<body>
+    <div id="box">
+        <!-- 指令後面會被當成變數對待所以如果要輸入yellow 要加上 ' ' -->
+        <div v-hello="'yellow'">1111</div>
+    </div>
+    <script>
+        Vue.directive('hello', {
+            inserted(el, bind) {
+                //指令生命週期 -創建 el =插入標籤的dom 只會執行一次 
+                console.log("插入指令拉")
+                console.log(el, bind)
+                //當自定義指令被插入 會獲得el (插入的dom節點)
+                el.style.background = bind.value //bind為 指令後面傳進來的值
+            },
+            updated(el, bind) {
+                //指令生命週期 -更新
+                el.style.background = bind.value
+                //el 是插入指令的dom節點 bind 是 指令後面輸入的值 
+            }
+        });
+        var vm = new Vue({
+            el: "#box",
+            data: {},
+            methods: {},
+        });
+    </script>
+</body>
+
+</html>
