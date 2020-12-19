@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="lib/vue.js"></script>
+    <link rel="stylesheet" href="lib/swiper-bundle.min.css">
+    <style>
+        .swiper-container {
+            width: 300PX;
+            height: 300PX;
+        }
+    </style>
+
+
+
+
+</head>
+
+<body>
+    <div id="box">
+        <swiper :key="datalist.length">
+            <div class="swiper-slide" v-for="data in datalist">{{data}}</div>
+        </swiper>
+
+    </div>
+
+
+    <script src="lib/swiper-bundle.min.js"></script>
+
+    <script>
+        Vue.component('swiper', {
+            template: `
+       <div class="swiper-container a">
+       <div class="swiper-wrapper">
+       <slot></slot>
+       </div>
+       <div class="swiper-pagination"></div>
+   </div>
+            `,
+            mounted() {
+                //1. 子組件mounted 此時new Swiper 但由於 父組件的mounted會最後執行 
+                //因此此時datalist 長度是0 故 newswiper會抓不到dom
+                //2.如果 擺在update生命週期 雖可解決此問題 但 每次更新一次狀態就會new依次
+                //可能發生不可預期之意外
+                //3.故 擺在mounted週期 並給 swiper組件一個key值(用data.length 本為0 settimeout後變為)
+                //當偵測到 key值改變 diff算法 會 從新算一次 
+                console.log('swiper-mounted')
+                new Swiper('.a', {
+
+                    loop: true,
+                    pagination: {
+                        el: '.swiper-pagination'
+                    }
+                })
+            }
+            // updated() {
+            //     new Swiper('.a', {
+
+            //         loop: true,
+            //         pagination: {
+            //             el: '.swiper-pagination'
+            //         }
+            //     })
+
+            // }
+        });
+        var vm = new Vue({
+            el: "#box",
+            data: {
+                datalist: []
+            },
+            methods: {},
+            mounted() {
+                setTimeout(() => {
+                    //跟組件的生命週期 會等所有dom都掛載完畢才執行 所以 會比 子組件的mounted還慢執行
+                    console.log('root-mounted')
+                    //setTimeout 模擬 異步取得資料所需之時間 
+                    this.datalist = ['111', '222', '333']
+                    //狀態更新完 異步更新dom
+                    console.log(document.querySelectorAll('.swiper-slide').length)
+                    //檢查 settimeout之後 swiper-slide 的長度 長度為0 代表還沒更新完 所以不能在這new swiper 
+                }, 2000);
+            },
+            updated() {
+                //
+                //更新生命週期 狀態更新完後執行 但每次狀態更新就會NEW一次 swiper 故不佳 
+                // new Swiper('.a', {
+                //     loop: true,
+                //     pagination: {
+                //         el: '.swiper-pagination'
+                //     }
+                // })
+            }
+        }); 
+    </script>
+</body>
+
+</html>
